@@ -2,27 +2,21 @@ function handleMutations(mutations) {
   for (let mutation of mutations) {
 
     const target = mutation.target;
-    if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-       
-       if (checkFirstGame(target)) break;
-       if (checkPlayAgain(target, mutation)) break;
+    if (mutation.type === 'childList' && mutation.addedNodes.length > 0 && (checkFirstGame(target) || checkPlayAgain(target, mutation))) {
+       playJustWin();
+       break;
     }
   }
 }
 
 function checkFirstGame(target) {
-   if (target.className === 'sidebar-component' && target.getElementsByClassName('live-game-buttons-component').length > 0) {
-      playJustWin();
-      return true;
-   }
-   return false;
+   return target.className === 'sidebar-component' && target.getElementsByClassName('live-game-buttons-component').length > 0;
 }
 
 function checkPlayAgain(target, mutation) {
   if (target.className === 'live-game-buttons-component') {
      for (let addedNode of mutation.addedNodes) {
          if (addedNode.className === 'resign-button-component') {
-            playJustWin();
             return true;
          }
      }
