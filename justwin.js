@@ -10,7 +10,7 @@ function handleMutations(mutations) {
 }
 
 function checkFirstGame(target) {
-   return target.className === 'sidebar-component' && target.getElementsByClassName('live-game-buttons-component').length > 0;
+   return target.className === 'sidebar-component' && target.getElementsByClassName('resign-button-component').length > 0;
 }
 
 function checkPlayAgain(target, mutation) {
