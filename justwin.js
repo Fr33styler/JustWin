@@ -1,20 +1,24 @@
 function handleMutations(mutations) {
   for (let mutation of mutations) {
 
-    const target = mutation.target;
-    if (mutation.type === 'childList' && mutation.addedNodes.length > 0 && (checkFirstGame(target) || checkPlayAgain(target, mutation))) {
+    if (mutation.type === 'childList' && mutation.addedNodes.length > 0 && (checkFirstGame(mutation) || checkPlayAgain(mutation))) {
        playJustWin();
        break;
     }
   }
 }
 
-function checkFirstGame(target) {
-   return target.className === 'sidebar-component' && target.getElementsByClassName('resign-button-component').length > 0;
+function checkFirstGame(mutation) {
+   for (let addedNode of mutation.addedNodes) {
+       if (addedNode.className === 'live-game-buttons-component') {
+          return true;
+       }
+   }
+   return false;
 }
 
-function checkPlayAgain(target, mutation) {
-  if (target.className === 'live-game-buttons-component') {
+function checkPlayAgain(mutation) {
+  if (mutation.target.className === 'live-game-buttons-component') {
      for (let addedNode of mutation.addedNodes) {
          if (addedNode.className === 'resign-button-component') {
             return true;
